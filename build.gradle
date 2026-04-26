@@ -33,7 +33,6 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API (VERY IMPORTANT)
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 }
 
