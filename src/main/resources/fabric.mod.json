@@ -1,35 +1,19 @@
 {
-	"schemaVersion": 1,
-	"id": "modid",
-	"version": "${version}",
-	"name": "VitalHUD",
-	"description": "Shows a highly customizable HUD for pretty much everything",
-	"authors": [
-		"JustAChillGuy"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
-	"environment": "*",
-	"entrypoints": {
-  "client": [
-    "com.imjustachillguy.vitalhud.VitalHUD"
-  ]
-}
-	"mixins": [
-		"modid.mixins.json",
-		{
-			"config": "modid.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.19.2",
-		"minecraft": "~26.1.2",
-		"java": ">=25",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "vitalhud",
+  "version": "1.0.0",
+  "name": "VitalHUD",
+  "description": "Customisable HUD that can show pretty much everything",
+  "authors": ["ImJustAChillGuy"],
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.imjustachillguy.vitalhud.VitalHUD"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "1.20.1",
+    "fabric-api": "*"
+  }
 }
