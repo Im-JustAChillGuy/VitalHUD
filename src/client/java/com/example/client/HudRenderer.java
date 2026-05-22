@@ -17,20 +17,20 @@ public class HudRenderer {
 
         Font font = client.font;
 
-        graphics.fill(x, y, x + 60, y + 12, 0x80000000);
-
         int x = 10;
         int y = 10;
 
         String fps = "FPS: " + client.getFps();
         String cps = "CPS: " + ClickTracker.getCPS();
         String speed = "Speed: " + String.format("%.2f", SpeedTracker.getSpeed());
+        String coords = CoordinatesTracker.getCoordinates();
+        String light = "Light: " + LightLevelTracker.getLightLevel();
 
         // Temporary debug output
-        System.out.println(CoordinatesTracker.getCoordinates());
-System.out.println("Light: " + LightLevelTracker.getLightLevel());
         System.out.println(fps);
         System.out.println(cps);
         System.out.println(speed);
+        System.out.println(coords);
+        System.out.println(light);
     }
 }
