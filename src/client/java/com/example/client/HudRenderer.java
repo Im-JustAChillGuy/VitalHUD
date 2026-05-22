@@ -25,6 +25,8 @@ public class HudRenderer {
         String speed = "Speed: " + String.format("%.2f", SpeedTracker.getSpeed());
 
         // Temporary debug output
+        System.out.println(CoordinatesTracker.getCoordinates());
+System.out.println("Light: " + LightLevelTracker.getLightLevel());
         System.out.println(fps);
         System.out.println(cps);
         System.out.println(speed);
