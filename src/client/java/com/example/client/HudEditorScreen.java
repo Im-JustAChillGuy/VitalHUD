@@ -9,7 +9,6 @@ public class HudEditorScreen extends Screen {
         super(Component.literal("VitalHUD Editor"));
     }
 
-    @Override
     public void render(int mouseX, int mouseY, float delta) {
 
     }
