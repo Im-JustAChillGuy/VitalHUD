@@ -16,7 +16,7 @@ public class Keybinds {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            long window = Minecraft.getInstance().getWindow();
+            var window = Minecraft.getInstance().getWindow();
 
             boolean pressed = InputConstants.isKeyDown(
                 window,
