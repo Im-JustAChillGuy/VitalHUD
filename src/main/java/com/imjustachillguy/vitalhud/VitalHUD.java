@@ -1,10 +1,8 @@
 package com.imjustachillguy.vitalhud;
 
-import net.fabricmc.api.ClientModInitializer;
-import com.imjustachillguy.vitalhud.hud.HudRenderer;
-import com.imjustachillguy.vitalhud.stats.ClickTracker;
-import com.imjustachillguy.vitalhud.stats.SpeedTracker;
-
+import com.imjustachillguy.vitalhud.HudRenderer;
+import com.imjustachillguy.vitalhud.ClickTracker;
+import com.imjustachillguy.vitalhud.SpeedTracker;
 public class VitalHUD implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
