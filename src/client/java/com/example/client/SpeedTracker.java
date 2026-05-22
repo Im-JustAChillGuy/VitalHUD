@@ -1,54 +1,35 @@
 package com.example.client;
 
-import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.phys.Vec3;
 
-public class HudRenderer {
+public class SpeedTracker {
+
+    private static Vec3 lastPos = null;
+    private static double speed = 0.0;
 
     public static void init() {
 
-        HudLayerRegistrationCallback.EVENT.register(layeredDrawer -> {
-            layeredDrawer.attachLayerAfter(
-                net.minecraft.client.gui.LayeredDrawLayers.CROSSHAIR,
-                "vitalhud",
-                HudRenderer::render
-            );
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+
+            if (client.player == null) return;
+
+            Vec3 pos = client.player.position();
+
+            if (lastPos != null) {
+
+                double dx = pos.x - lastPos.x;
+                double dz = pos.z - lastPos.z;
+
+                speed = Math.sqrt(dx * dx + dz * dz) * 20.0;
+            }
+
+            lastPos = pos;
         });
     }
 
-    private static void render(GuiGraphics context, float tickDelta) {
-
-        Minecraft client = Minecraft.getInstance();
-
-        if (client.player == null) return;
-
-        int x = 10;
-        int y = 10;
-
-        context.drawString(
-            client.font,
-            "FPS: " + client.getFps(),
-            x,
-            y,
-            0xFFFFFF
-        );
-
-        context.drawString(
-            client.font,
-            "CPS: " + ClickTracker.getCPS(),
-            x,
-            y + 12,
-            0xFFFFFF
-        );
-
-        context.drawString(
-            client.font,
-            "Speed: " + String.format("%.2f", SpeedTracker.getSpeed()),
-            x,
-            y + 24,
-            0xFFFFFF
-        );
+    public static double getSpeed() {
+        return speed;
     }
 }
