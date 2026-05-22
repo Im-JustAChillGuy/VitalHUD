@@ -1,36 +1,36 @@
 package com.example.client;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 
-import net.minecraft.client.KeyMapping.Category;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import org.lwjgl.glfw.GLFW;
 
 public class Keybinds {
 
-    private static final KeyMapping OPEN_EDITOR =
-        KeyBindingHelper.registerKeyBinding(
-            new KeyMapping(
-                "key.vitalhud.editor",
-                GLFW.GLFW_KEY_K,
-                Category.MISC
-            )
-        );
+    private static boolean wasPressed = false;
 
     public static void init() {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            while (OPEN_EDITOR.consumeClick()) {
+            long window = Minecraft.getInstance().getWindow();
+
+            boolean pressed = InputConstants.isKeyDown(
+                window,
+                GLFW.GLFW_KEY_K
+            );
+
+            if (pressed && !wasPressed) {
 
                 Minecraft.getInstance().setScreen(
                     new HudEditorScreen()
                 );
             }
+
+            wasPressed = pressed;
         });
     }
 }
