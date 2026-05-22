@@ -7,7 +7,7 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-	// Additional repositories can be added here if needed
+	// Add additional repositories here if needed
 }
 
 loom {
@@ -24,9 +24,7 @@ loom {
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 
-	mappings loom.layered() {
-		officialMojangMappings()
-	}
+	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
 
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
@@ -67,6 +65,6 @@ publishing {
 	}
 
 	repositories {
-		// Publishing repositories go here
+		// Add publishing repositories here if needed
 	}
 }
