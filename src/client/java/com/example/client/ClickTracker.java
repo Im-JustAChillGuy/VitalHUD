@@ -16,11 +16,11 @@ public class ClickTracker {
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            long window = Minecraft.getInstance().getWindow().getWindow();
+          var window = Minecraft.getInstance().getWindow();
 
-            if (InputConstants.isKeyDown(window, GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-                clicks.add(System.currentTimeMillis());
-            }
+if (InputConstants.isKeyDown(window, GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+    clicks.add(System.currentTimeMillis());
+}
 
             long now = System.currentTimeMillis();
             Iterator<Long> it = clicks.iterator();
