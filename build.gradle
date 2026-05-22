@@ -1,5 +1,5 @@
 plugins {
-	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'fabric-loom' version '1.16.2'
 	id 'maven-publish'
 }
 
@@ -7,14 +7,14 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-	// Add additional repositories here if needed
+	mavenCentral()
 }
 
 loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"vitalhud" {
+		vitalhud {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -23,18 +23,17 @@ loom {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
-
-	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+	mappings loom.officialMojangMappings()
 
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
 }
 
 processResources {
-	inputs.property "version", project.version
+	inputs.property "version", version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+		expand "version": version
 	}
 }
 
@@ -50,8 +49,6 @@ java {
 }
 
 jar {
-	inputs.property "projectName", project.name
-
 	from("LICENSE") {
 		rename { "${it}_${project.name}" }
 	}
@@ -62,9 +59,5 @@ publishing {
 		create("mavenJava", MavenPublication) {
 			from components.java
 		}
-	}
-
-	repositories {
-		// Add publishing repositories here if needed
 	}
 }
