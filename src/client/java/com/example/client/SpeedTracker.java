@@ -1,4 +1,4 @@
-package com.imjustachillguy.vitalhud.stats;
+package com.example.client;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.util.math.Vec3d;
