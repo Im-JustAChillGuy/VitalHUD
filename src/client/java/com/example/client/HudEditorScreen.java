@@ -8,4 +8,8 @@ public class HudEditorScreen extends Screen {
     public HudEditorScreen() {
         super(Component.literal("VitalHUD Editor"));
     }
+
+    public void render() {
+
+    }
 }
