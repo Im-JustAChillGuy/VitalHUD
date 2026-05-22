@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 
 public class VitalHUD implements ClientModInitializer {
 
+    private boolean openedEditor = false;
+
     @Override
     public void onInitializeClient() {
 
@@ -17,10 +19,16 @@ public class VitalHUD implements ClientModInitializer {
         ClickTracker.init();
         SpeedTracker.init();
 
-        Minecraft.getInstance().setScreen(new HudEditorScreen());
-
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+
             HudRenderer.render();
+
+            if (!openedEditor) {
+
+                Minecraft.getInstance().setScreen(new HudEditorScreen());
+
+                openedEditor = true;
+            }
         });
     }
 }
