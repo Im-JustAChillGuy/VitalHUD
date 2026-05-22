@@ -10,5 +10,7 @@ public class HudEditorScreen extends Screen {
     }
 
     @Override
-    public void 
+    public void render(int mouseX, int mouseY, float delta) {
+
+    }
 }
