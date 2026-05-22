@@ -14,6 +14,7 @@ public class VitalHUD implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             HudRenderer.render();
+            HudManager.init();
         });
     }
 }
