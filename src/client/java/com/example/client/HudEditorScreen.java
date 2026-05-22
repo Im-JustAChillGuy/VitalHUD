@@ -10,18 +10,5 @@ public class HudEditorScreen extends Screen {
     }
 
     @Override
-    public void render() {
-
-        super.render();
-
-        fill(100, 100, 160, 112, 0x80000000);
-
-        drawString(
-            minecraft.font,
-            "FPS",
-            102,
-            102,
-            0xFFFFFF
-        );
-    }
+    public void 
 }
