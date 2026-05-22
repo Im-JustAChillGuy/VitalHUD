@@ -1,4 +1,4 @@
-package com.imjustachillguy.vitalhud.hud;
+package com.example.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
