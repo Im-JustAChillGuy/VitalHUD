@@ -1,4 +1,4 @@
-package com.imjustachillguy.vitalhud;
+package com.example.client;
 
 import net.fabricmc.api.ClientModInitializer;
 
