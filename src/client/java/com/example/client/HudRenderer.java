@@ -27,10 +27,6 @@ public class HudRenderer {
         String light = "Light: " + LightLevelTracker.getLightLevel();
 
         // Temporary debug output
-        System.out.println(fps);
-        System.out.println(cps);
-        System.out.println(speed);
-        System.out.println(coords);
-        System.out.println(light);
+       
     }
 }
