@@ -1,4 +1,4 @@
-package com.imjustachillguy.vitalhud.stats;
+package com.example;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
