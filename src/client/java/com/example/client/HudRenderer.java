@@ -17,6 +17,8 @@ public class HudRenderer {
 
         Font font = client.font;
 
+        graphics.fill(x, y, x + 60, y + 12, 0x80000000);
+
         int x = 10;
         int y = 10;
 
