@@ -2,7 +2,6 @@ package com.example.client;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
-
 import com.mojang.blaze3d.platform.InputConstants;
 import org.lwjgl.glfw.GLFW;
 
@@ -16,11 +15,11 @@ public class ClickTracker {
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-          var window = Minecraft.getInstance().getWindow();
+            long windowHandle = Minecraft.getInstance().getWindow().getWindow();
 
-if (InputConstants.isKeyDown(window, GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-    clicks.add(System.currentTimeMillis());
-}
+            if (InputConstants.isKeyDown(windowHandle, GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+                clicks.add(System.currentTimeMillis());
+            }
 
             long now = System.currentTimeMillis();
             Iterator<Long> it = clicks.iterator();
