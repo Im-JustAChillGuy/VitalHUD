@@ -1,11 +1,8 @@
 package com.example.client;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-
 import net.minecraft.client.Minecraft;
-
 import com.mojang.blaze3d.platform.InputConstants;
-
 import org.lwjgl.glfw.GLFW;
 
 public class Keybinds {
@@ -19,15 +16,12 @@ public class Keybinds {
             var window = Minecraft.getInstance().getWindow();
 
             boolean pressed = InputConstants.isKeyDown(
-                window,
+                window.getWindow(),
                 GLFW.GLFW_KEY_K
             );
 
             if (pressed && !wasPressed) {
-
-                Minecraft.getInstance().setScreen(
-                    new HudEditorScreen()
-                );
+                Minecraft.getInstance().setScreen(new HudEditorScreen());
             }
 
             wasPressed = pressed;
