@@ -1,6 +1,6 @@
 package com.example.client;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -9,30 +9,40 @@ public class HudEditorScreen extends Screen {
     private HudElement dragging = null;
     private int dragOffsetX = 0;
     private int dragOffsetY = 0;
+    private double lastMouseX = 0;
+    private double lastMouseY = 0;
 
     public HudEditorScreen() {
         super(Component.literal("VitalHUD Editor"));
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
 
-        context.fill(0, 0, this.width, this.height, 0x88000000);
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
 
+        // Dark transparent background
+        graphics.fill(0, 0, this.width, this.height, 0x88000000);
+
+        // Draw each element as a draggable label
         for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
             HudElement el = HudManager.get(name);
             if (el == null) continue;
 
             String label = "[" + el.getName().toUpperCase() + "]";
-            context.fill(el.getX() - 2, el.getY() - 2,
-                         el.getX() + font.width(label) + 2, el.getY() + font.lineHeight + 2,
-                         0xAA005599);
-            context.drawString(font, label, el.getX(), el.getY(), 0xFFFFFF);
+            int w = this.font.width(label);
+            int h = this.font.lineHeight;
+
+            graphics.fill(el.getX() - 2, el.getY() - 2,
+                          el.getX() + w + 2, el.getY() + h + 2,
+                          0xAA005599);
+            graphics.text(this.font, label, el.getX(), el.getY(), 0xFFFFFFFF, true);
         }
 
-        context.drawString(font, "Drag elements to reposition. Press Escape to close.", 5, this.height - 12, 0xAAAAAA);
-
-        super.render(context, mouseX, mouseY, delta);
+        graphics.text(this.font, "Drag elements to reposition. Press Escape to close.",
+                      5, this.height - 12, 0xFFAAAAAA, false);
     }
 
     @Override
@@ -42,8 +52,8 @@ public class HudEditorScreen extends Screen {
             if (el == null) continue;
 
             String label = "[" + el.getName().toUpperCase() + "]";
-            int w = font.width(label);
-            int h = font.lineHeight;
+            int w = this.font.width(label);
+            int h = this.font.lineHeight;
 
             if (mouseX >= el.getX() - 2 && mouseX <= el.getX() + w + 2
              && mouseY >= el.getY() - 2 && mouseY <= el.getY() + h + 2) {
