@@ -1,13 +1,11 @@
 package com.example.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class HudRenderer {
 
-    public static void init() {}
-
-    public static void render(GuiGraphics context) {
+    public static void render(GuiGraphicsExtractor graphics) {
 
         Minecraft client = Minecraft.getInstance();
 
@@ -19,16 +17,16 @@ public class HudRenderer {
         String coords = CoordinatesTracker.getCoordinates();
         String light  = "Light: " + LightLevelTracker.getLightLevel();
 
-        draw(context, "fps",    fps);
-        draw(context, "cps",    cps);
-        draw(context, "speed",  speed);
-        draw(context, "coords", coords);
-        draw(context, "light",  light);
+        draw(graphics, "fps",    fps);
+        draw(graphics, "cps",    cps);
+        draw(graphics, "speed",  speed);
+        draw(graphics, "coords", coords);
+        draw(graphics, "light",  light);
     }
 
-    private static void draw(GuiGraphics context, String elementName, String text) {
+    private static void draw(GuiGraphicsExtractor graphics, String elementName, String text) {
         HudElement el = HudManager.get(elementName);
         if (el == null) return;
-        context.drawString(Minecraft.getInstance().font, text, el.getX(), el.getY(), 0xFFFFFF);
+        graphics.text(Minecraft.getInstance().font, text, el.getX(), el.getY(), 0xFFFFFFFF, true);
     }
 }
