@@ -13,12 +13,9 @@ public class Keybinds {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            var window = Minecraft.getInstance().getWindow();
+            long windowHandle = Minecraft.getInstance().getWindow().getWindow();
 
-            boolean pressed = InputConstants.isKeyDown(
-                window.getWindow(),
-                GLFW.GLFW_KEY_K
-            );
+            boolean pressed = InputConstants.isKeyDown(windowHandle, GLFW.GLFW_KEY_K);
 
             if (pressed && !wasPressed) {
                 Minecraft.getInstance().setScreen(new HudEditorScreen());
