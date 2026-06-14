@@ -1,15 +1,78 @@
 package com.example.client;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class HudEditorScreen extends Screen {
 
+    private HudElement dragging = null;
+    private int dragOffsetX = 0;
+    private int dragOffsetY = 0;
+
     public HudEditorScreen() {
         super(Component.literal("VitalHUD Editor"));
     }
 
-    public void render(int mouseX, int mouseY, float delta) {
+    @Override
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 
+        context.fill(0, 0, this.width, this.height, 0x88000000);
+
+        for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
+            HudElement el = HudManager.get(name);
+            if (el == null) continue;
+
+            String label = "[" + el.getName().toUpperCase() + "]";
+            context.fill(el.getX() - 2, el.getY() - 2,
+                         el.getX() + font.width(label) + 2, el.getY() + font.lineHeight + 2,
+                         0xAA005599);
+            context.drawString(font, label, el.getX(), el.getY(), 0xFFFFFF);
+        }
+
+        context.drawString(font, "Drag elements to reposition. Press Escape to close.", 5, this.height - 12, 0xAAAAAA);
+
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
+            HudElement el = HudManager.get(name);
+            if (el == null) continue;
+
+            String label = "[" + el.getName().toUpperCase() + "]";
+            int w = font.width(label);
+            int h = font.lineHeight;
+
+            if (mouseX >= el.getX() - 2 && mouseX <= el.getX() + w + 2
+             && mouseY >= el.getY() - 2 && mouseY <= el.getY() + h + 2) {
+                dragging = el;
+                dragOffsetX = (int) mouseX - el.getX();
+                dragOffsetY = (int) mouseY - el.getY();
+                return true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (dragging != null) {
+            dragging.setPosition((int) mouseX - dragOffsetX, (int) mouseY - dragOffsetY);
+            return true;
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        dragging = null;
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }
