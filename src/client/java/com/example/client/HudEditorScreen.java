@@ -1,16 +1,19 @@
 package com.example.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
+import org.lwjgl.glfw.GLFW;
 
 public class HudEditorScreen extends Screen {
 
     private HudElement dragging = null;
     private int dragOffsetX = 0;
     private int dragOffsetY = 0;
-    private double lastMouseX = 0;
-    private double lastMouseY = 0;
+    private boolean wasMouseDown = false;
 
     public HudEditorScreen() {
         super(Component.literal("VitalHUD Editor"));
@@ -20,13 +23,8 @@ public class HudEditorScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
 
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-
-        // Dark transparent background
         graphics.fill(0, 0, this.width, this.height, 0x88000000);
 
-        // Draw each element as a draggable label
         for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
             HudElement el = HudManager.get(name);
             if (el == null) continue;
@@ -38,47 +36,42 @@ public class HudEditorScreen extends Screen {
             graphics.fill(el.getX() - 2, el.getY() - 2,
                           el.getX() + w + 2, el.getY() + h + 2,
                           0xAA005599);
-            graphics.drawString(this.font, label, el.getX(), el.getY(), 0xFFFFFFFF, true);
+            graphics.text(this.font, label, el.getX(), el.getY(), 0xFFFFFFFF, true);
         }
 
-        graphics.drawString(this.font, "Drag elements to reposition. Press Escape to close.",
+        graphics.text(this.font, "Drag elements to reposition. Press Escape to close.",
                       5, this.height - 12, 0xFFAAAAAA, false);
-    }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
-            HudElement el = HudManager.get(name);
-            if (el == null) continue;
+        // Poll the mouse button state directly instead of overriding
+        // mouseClicked/mouseDragged/mouseReleased, since those signatures
+        // change frequently between Minecraft versions.
+        Window window = Minecraft.getInstance().getWindow();
+        boolean isMouseDown = InputConstants.isKeyDown(window, GLFW.GLFW_MOUSE_BUTTON_1);
 
-            String label = "[" + el.getName().toUpperCase() + "]";
-            int w = this.font.width(label);
-            int h = this.font.lineHeight;
+        if (isMouseDown && !wasMouseDown) {
+            for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
+                HudElement el = HudManager.get(name);
+                if (el == null) continue;
 
-            if (mouseX >= el.getX() - 2 && mouseX <= el.getX() + w + 2
-             && mouseY >= el.getY() - 2 && mouseY <= el.getY() + h + 2) {
-                dragging = el;
-                dragOffsetX = (int) mouseX - el.getX();
-                dragOffsetY = (int) mouseY - el.getY();
-                return true;
+                String label = "[" + el.getName().toUpperCase() + "]";
+                int w = this.font.width(label);
+                int h = this.font.lineHeight;
+
+                if (mouseX >= el.getX() - 2 && mouseX <= el.getX() + w + 2
+                 && mouseY >= el.getY() - 2 && mouseY <= el.getY() + h + 2) {
+                    dragging = el;
+                    dragOffsetX = mouseX - el.getX();
+                    dragOffsetY = mouseY - el.getY();
+                    break;
+                }
             }
+        } else if (isMouseDown && dragging != null) {
+            dragging.setPosition(mouseX - dragOffsetX, mouseY - dragOffsetY);
+        } else if (!isMouseDown) {
+            dragging = null;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
 
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (dragging != null) {
-            dragging.setPosition((int) mouseX - dragOffsetX, (int) mouseY - dragOffsetY);
-            return true;
-        }
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        dragging = null;
-        return super.mouseReleased(mouseX, mouseY, button);
+        wasMouseDown = isMouseDown;
     }
 
     @Override
