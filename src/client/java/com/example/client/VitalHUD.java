@@ -1,9 +1,8 @@
 package com.example.client;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.HudElementRegistry;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.resources.ResourceLocation;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class VitalHUD implements ClientModInitializer {
 
@@ -15,9 +14,8 @@ public class VitalHUD implements ClientModInitializer {
         SpeedTracker.init();
         Keybinds.init();
 
-        HudElementRegistry.attachElementAfterAll(
-            ResourceLocation.fromNamespaceAndPath("vitalhud", "hud"),
-            (graphics, tickCounter) -> HudRenderer.render(graphics)
-        );
+        HudRenderCallback.EVENT.register((graphics, tickCounter) -> {
+            HudRenderer.render(graphics);
+        });
     }
 }
