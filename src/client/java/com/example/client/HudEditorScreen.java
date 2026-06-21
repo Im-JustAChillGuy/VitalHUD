@@ -1,6 +1,6 @@
 package com.example.client;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -17,8 +17,8 @@ public class HudEditorScreen extends Screen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        super.extractRenderState(graphics, mouseX, mouseY, delta);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.render(graphics, mouseX, mouseY, delta);
 
         lastMouseX = mouseX;
         lastMouseY = mouseY;
@@ -38,11 +38,16 @@ public class HudEditorScreen extends Screen {
             graphics.fill(el.getX() - 2, el.getY() - 2,
                           el.getX() + w + 2, el.getY() + h + 2,
                           0xAA005599);
-            graphics.text(this.font, label, el.getX(), el.getY(), 0xFFFFFFFF, true);
+            graphics.drawString(this.font, label, el.getX(), el.getY(), 0xFFFFFFFF, true);
         }
 
-        graphics.text(this.font, "Drag elements to reposition. Press Escape to close.",
+        graphics.drawString(this.font, "Drag elements to reposition. Press Escape to close.",
                       5, this.height - 12, 0xFFAAAAAA, false);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @Override
