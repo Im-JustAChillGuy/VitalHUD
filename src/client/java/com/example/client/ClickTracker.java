@@ -11,15 +11,20 @@ import java.util.Iterator;
 public class ClickTracker {
 
     private static final ArrayList<Long> clicks = new ArrayList<>();
+    private static boolean wasMouseDown = false;
 
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
             long windowHandle = Minecraft.getInstance().getWindow().getWindow();
 
-            if (InputConstants.isKeyDown(windowHandle, GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+            boolean isMouseDown = InputConstants.isKeyDown(windowHandle, GLFW.GLFW_MOUSE_BUTTON_1);
+
+            // Register click only on the transition from up to down
+            if (isMouseDown && !wasMouseDown) {
                 clicks.add(System.currentTimeMillis());
             }
+            wasMouseDown = isMouseDown;
 
             long now = System.currentTimeMillis();
             Iterator<Long> it = clicks.iterator();
