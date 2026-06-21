@@ -3,6 +3,7 @@ package com.example.client;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -16,11 +17,10 @@ public class ClickTracker {
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            long windowHandle = Minecraft.getInstance().getWindow().getWindow();
+            Window window = Minecraft.getInstance().getWindow();
 
-            boolean isMouseDown = InputConstants.isKeyDown(windowHandle, GLFW.GLFW_MOUSE_BUTTON_1);
+            boolean isMouseDown = InputConstants.isKeyDown(window, GLFW.GLFW_MOUSE_BUTTON_1);
 
-            // Register click only on the transition from up to down
             if (isMouseDown && !wasMouseDown) {
                 clicks.add(System.currentTimeMillis());
             }
