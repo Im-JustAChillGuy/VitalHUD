@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "vitalhud",
+  "id": "nebula",
   "version": "1.0.0",
-  "name": "VitalHUD",
-  "description": "The only HUD mod you will ever need",
+  "name": "Nebula Client",
+  "description": "A lightweight HUD overlay showing FPS, CPS, speed, coordinates, and light level",
   "authors": [
     "ImJustAChillGuy"
   ],
@@ -11,13 +11,16 @@
 
   "entrypoints": {
     "client": [
-      "com.example.client.VitalHUD"
+      "com.example.nebula.NebulaClient"
+    ],
+    "modmenu": [
+      "com.example.nebula.ModMenuImpl"
     ]
   },
 
   "depends": {
     "fabricloader": ">=0.19.2",
-    "minecraft": "26.1.2",
+    "minecraft": ">=26.1",
     "fabric-api": "*"
   }
 }
