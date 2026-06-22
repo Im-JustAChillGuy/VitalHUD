@@ -11,7 +11,7 @@
 
   "entrypoints": {
     "client": [
-      "com.example.nebula.NebulaClient"
+      "com.example.NebulaClient"
     ],
     "modmenu": [
       "com.example.nebula.ModMenuImpl"
