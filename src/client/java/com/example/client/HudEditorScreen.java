@@ -20,11 +20,22 @@ public class HudEditorScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        super.init();
+    }
+
+    @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
 
+        // Dark semi-transparent background
         graphics.fill(0, 0, this.width, this.height, 0x88000000);
 
+        // Draw title
+        graphics.text(this.font, "VitalHUD Editor - Drag elements to move",
+                      10, 10, 0xFFFFFFFF, true);
+
+        // Draw each draggable HUD element
         for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
             HudElement el = HudManager.get(name);
             if (el == null) continue;
@@ -33,22 +44,24 @@ public class HudEditorScreen extends Screen {
             int w = this.font.width(label);
             int h = this.font.lineHeight;
 
+            // Highlight box around element
             graphics.fill(el.getX() - 2, el.getY() - 2,
                           el.getX() + w + 2, el.getY() + h + 2,
                           0xAA005599);
+            // Draw label
             graphics.text(this.font, label, el.getX(), el.getY(), 0xFFFFFFFF, true);
         }
 
-        graphics.text(this.font, "Drag elements to reposition. Press Escape to close.",
+        // Instructions at bottom
+        graphics.text(this.font, "Press [ESC] to close and save",
                       5, this.height - 12, 0xFFAAAAAA, false);
 
-        // Poll the mouse button state directly instead of overriding
-        // mouseClicked/mouseDragged/mouseReleased, since those signatures
-        // change frequently between Minecraft versions.
+        // Poll mouse state to handle dragging
         Window window = Minecraft.getInstance().getWindow();
         boolean isMouseDown = InputConstants.isKeyDown(window, GLFW.GLFW_MOUSE_BUTTON_1);
 
         if (isMouseDown && !wasMouseDown) {
+            // Mouse button just pressed - start drag if over an element
             for (String name : new String[]{"fps", "cps", "speed", "coords", "light"}) {
                 HudElement el = HudManager.get(name);
                 if (el == null) continue;
@@ -66,12 +79,21 @@ public class HudEditorScreen extends Screen {
                 }
             }
         } else if (isMouseDown && dragging != null) {
+            // Continue dragging
             dragging.setPosition(mouseX - dragOffsetX, mouseY - dragOffsetY);
         } else if (!isMouseDown) {
+            // Mouse released
             dragging = null;
         }
 
         wasMouseDown = isMouseDown;
+    }
+
+    @Override
+    public void onClose() {
+        // Save config when screen closes
+        HudManager.saveConfig();
+        super.onClose();
     }
 
     @Override
