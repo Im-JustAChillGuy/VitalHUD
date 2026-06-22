@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 public class HudManager {
 
     private static final Map<String, HudElement> elements = new HashMap<>();
-    private static final String CONFIG_FILENAME = "vitalhud.json";
+    private static final String CONFIG_FILENAME = "nebula.json";
 
     public static void init() {
         // Create default elements
@@ -35,7 +35,7 @@ public class HudManager {
         return elements.get(name);
     }
 
-    // Load positions from config file in .minecraft/config/vitalhud.json
+    // Load positions from config file in .minecraft/config/nebula.json
     private static void loadConfig() {
         try {
             Path configDir = Minecraft.getInstance().gameDirectory.toPath().resolve("config");
@@ -46,7 +46,7 @@ public class HudManager {
                 parseConfig(content);
             }
         } catch (Exception e) {
-            System.err.println("Failed to load VitalHUD config: " + e.getMessage());
+            System.err.println("Failed to load Nebula config: " + e.getMessage());
         }
     }
 
@@ -89,9 +89,9 @@ public class HudManager {
             json.append("}");
 
             Files.writeString(configFile, json.toString());
-            System.out.println("VitalHUD config saved to " + configFile);
+            System.out.println("Nebula config saved to " + configFile);
         } catch (IOException e) {
-            System.err.println("Failed to save VitalHUD config: " + e.getMessage());
+            System.err.println("Failed to save Nebula config: " + e.getMessage());
         }
     }
 }
