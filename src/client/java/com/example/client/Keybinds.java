@@ -16,7 +16,7 @@ public class Keybinds {
 
             Window window = Minecraft.getInstance().getWindow();
 
-            boolean pressed = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_K);
+            boolean pressed = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
 
             if (pressed && !wasPressed) {
                 Minecraft.getInstance().setScreen(new HudEditorScreen());
