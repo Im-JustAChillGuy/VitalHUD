@@ -5,17 +5,14 @@ import net.minecraft.client.Minecraft;
 public class CoordinatesTracker {
 
     public static String getCoordinates() {
-
         Minecraft client = Minecraft.getInstance();
 
-        if (client.player == null) {
-            return "XYZ: ?";
-        }
+        if (client.player == null) return "Coords: N/A";
 
-        int x = (int) client.player.getX();
-        int y = (int) client.player.getY();
-        int z = (int) client.player.getZ();
+        double x = client.player.getX();
+        double y = client.player.getY();
+        double z = client.player.getZ();
 
-        return "XYZ: " + x + " " + y + " " + z;
+        return String.format("Coords: %.1f, %.1f, %.1f", x, y, z);
     }
 }
