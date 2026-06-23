@@ -16,14 +16,12 @@ public class HudManager {
     private static final String CONFIG_FILENAME = "nebula.json";
 
     public static void init() {
-        // Create default elements
         register(new HudElement("fps", 10, 10));
         register(new HudElement("cps", 10, 25));
         register(new HudElement("speed", 10, 40));
         register(new HudElement("coords", 10, 55));
         register(new HudElement("light", 10, 70));
 
-        // Load saved positions from config file
         loadConfig();
     }
 
@@ -35,7 +33,6 @@ public class HudManager {
         return elements.get(name);
     }
 
-    // Load positions from config file in .minecraft/config/nebula.json
     private static void loadConfig() {
         try {
             Path configDir = Minecraft.getInstance().gameDirectory.toPath().resolve("config");
@@ -50,9 +47,7 @@ public class HudManager {
         }
     }
 
-    // Parse simple JSON: {"fps":{"x":10,"y":10},"cps":{"x":10,"y":25},...}
     private static void parseConfig(String json) {
-        // Simple regex-based parsing (good enough for this use case)
         Pattern pattern = Pattern.compile("\"(\\w+)\":\\{\"x\":(\\d+),\"y\":(\\d+)\\}");
         Matcher matcher = pattern.matcher(json);
 
@@ -68,7 +63,6 @@ public class HudManager {
         }
     }
 
-    // Save current positions to config file
     public static void saveConfig() {
         try {
             Path configDir = Minecraft.getInstance().gameDirectory.toPath().resolve("config");
@@ -76,7 +70,6 @@ public class HudManager {
 
             Path configFile = configDir.resolve(CONFIG_FILENAME);
 
-            // Build simple JSON
             StringBuilder json = new StringBuilder("{");
             boolean first = true;
             for (Map.Entry<String, HudElement> entry : elements.entrySet()) {
@@ -89,7 +82,6 @@ public class HudManager {
             json.append("}");
 
             Files.writeString(configFile, json.toString());
-            System.out.println("Nebula config saved to " + configFile);
         } catch (IOException e) {
             System.err.println("Failed to save Nebula config: " + e.getMessage());
         }
