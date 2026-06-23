@@ -16,10 +16,10 @@ public class Keybinds {
 
             Window window = Minecraft.getInstance().getWindow();
 
-            boolean pressed = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
+            boolean pressed = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_N);
 
             if (pressed && !wasPressed) {
-                Minecraft.getInstance().setScreen(new HudEditorScreen());
+                Minecraft.getInstance().setScreen(new NebulaConfigScreen());
             }
 
             wasPressed = pressed;
