@@ -1,20 +1,17 @@
 package com.example.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class LightLevelTracker {
 
     public static int getLightLevel() {
-
         Minecraft client = Minecraft.getInstance();
 
-        if (client.player == null || client.level == null) {
-            return 0;
-        }
+        if (client.player == null || client.level == null) return 0;
 
-        BlockPos pos = client.player.blockPosition();
+        Level level = client.level;
 
-        return client.level.getMaxLocalRawBrightness(pos);
+        return level.getMaxLightLevel();
     }
 }
