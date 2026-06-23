@@ -4,7 +4,6 @@ public class HudElement {
 
     private int x;
     private int y;
-
     private final String name;
 
     public HudElement(String name, int x, int y) {
