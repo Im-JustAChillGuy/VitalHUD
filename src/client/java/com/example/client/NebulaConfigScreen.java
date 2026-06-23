@@ -2,6 +2,8 @@ package com.example.client;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.network.chat.Component;
 
 public class NebulaConfigScreen extends Screen {
@@ -71,7 +73,9 @@ public class NebulaConfigScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
+        int keyCode = event.getKey();
+        
         if (editing) {
             if (keyCode == 257 || keyCode == 335) {
                 if (!inputValue.isEmpty()) {
@@ -126,11 +130,13 @@ public class NebulaConfigScreen extends Screen {
             return true;
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     @Override
-    public boolean charTyped(char codePoint, int modifiers) {
+    public boolean charTyped(CharacterEvent event) {
+        char codePoint = event.getCodePoint();
+        
         if (editing && Character.isDigit(codePoint)) {
             inputValue += codePoint;
             return true;
@@ -139,7 +145,7 @@ public class NebulaConfigScreen extends Screen {
             inputValue = "-";
             return true;
         }
-        return super.charTyped(codePoint, modifiers);
+        return super.charTyped(event);
     }
 
     @Override
