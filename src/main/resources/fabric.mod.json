@@ -3,18 +3,18 @@
   "id": "nebula",
   "version": "1.0.0",
   "name": "Nebula Client",
-  "description": "A lightweight HUD overlay showing FPS, CPS, speed, coordinates, and light level",
+  "description": "A simple mod that shows a HUD for pretty much everything",
   "authors": [
-    "ImJustAChillGuy"
+    "JustAChillGuy"
   ],
   "environment": "client",
 
   "entrypoints": {
     "client": [
-      "com.example.NebulaClient"
+      "com.example.client.NebulaClient"
     ],
     "modmenu": [
-      "com.example.nebula.ModMenuImpl"
+      "com.example.client.ModMenuImpl"
     ]
   },
 
